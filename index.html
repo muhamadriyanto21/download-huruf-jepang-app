@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiragana, Katakana, dan Kanji Poster</title>
+    <!-- Tambahkan stylesheet Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Tambahkan pustaka jsPDF dan html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        
+    .character-image {
+        width: 100%; /* Lebarkan gambar sesuai lebar kontainer */
+        max-height: 800px;
+        margin: 10px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-2">Aplikasi Download Poster Hiragana dan Katakana</h1>
+        <div class="row justify-content-center mt-2">
+            <div class="col-md-8">
+                <div class="poster-container">
+                    <div class="character-image">
+                        <img src="img/hk.jpg" style="max-width: 100%;" alt="Hiragana Katakana Chart" />
+                    </div>
+                </div>
+                <button class="btn btn-primary mt-3" id="export-pdf"><i class="fas fa-file-pdf"></i>Export to PDF</button>
+                <button class="btn btn-success mt-3" id="export-png">Download PNG</button>
+                <a href="https://muhamadriyanto21.github.io/all-apps" class="btn btn-primary mb-2 mt-4">Back To Home</a>
+            </div>
+        </div>
+    </div>
+    <script>
+            document.getElementById('export-pdf').addEventListener('click', function() {
+    const element = document.querySelector('.poster-container');
+    const opt = {
+        margin: 10,
+        filename: 'poster.pdf',
+    };
+    
+    html2pdf().from(element).set(opt).toPdf().get('pdf').then(function(pdf) {
+        pdf.save();
+    });
+});
+        document.getElementById('export-png').addEventListener('click', function() {
+            html2canvas(document.querySelector('.poster-container')).then(function(canvas) {
+                const pngUrl = canvas.toDataURL("image/png");
+                const downloadLink = document.createElement('a');
+                downloadLink.href = pngUrl;
+                downloadLink.download = 'poster.png';
+                downloadLink.click();
+            });
+        });
+    </script>
+</body>
+</html>
